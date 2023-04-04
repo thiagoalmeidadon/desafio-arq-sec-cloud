@@ -21,3 +21,5 @@
       regexp: 'ALLOWED_HOSTS'
       line: 'ALLOWED_HOSTS = ["*"]'
       backrefs: yes
+  - name: Running the server
+    shell: 'python manage.py runserver 0.0.0.0:8080'
