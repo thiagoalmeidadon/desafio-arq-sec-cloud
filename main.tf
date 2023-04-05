@@ -95,10 +95,6 @@ resource "aws_instance" "webserver" {
     destination = "/tmp/wait.sh"
   }
 
-  provisioner "file" {
-    source      = "Idocker.sh"
-    destination = "/tmp/Idocker.sh"
-  }
   provisioner "remote-exec" {
     inline = [
       "echo 'connected!'",
@@ -106,5 +102,4 @@ resource "aws_instance" "webserver" {
       "sudo /tmp/wait.sh"
     ]
   }
-
 }
