@@ -29,3 +29,11 @@ resource "aws_instance" "webserver" {
   }
 
 }
+
+output "ec2_global_dns" {
+  value = ["${aws_instance.webserver.*.public_dns}"]
+}
+
+output "ec2_global_ip" {
+  value = ["${aws_instance.webserver.*.public_ip}"]
+}
