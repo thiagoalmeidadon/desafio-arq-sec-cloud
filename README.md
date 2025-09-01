@@ -1,5 +1,5 @@
 
-## Seja bem-vindo[a] ao desafio para Arquitetura de Segurança & Cloud
+## Seja bem-vindo[a] ao desafio para Arquitetura de Segurança & Cloud (UOL)
 
 Este desafio tem como objetivo avaliar sua capacidade de solucionar um problema entregando uma solução visando a segurança da informação e da infra-estrutura. Não tem problema não entregar o desafio completo, o tempo é muito curto. O que vai ser avaliado é a tua lógica na proposta da solução.
 
@@ -42,7 +42,7 @@ https://hub.docker.com/r/strm/helloworld-http/
 Calma, não tem problema não entregar o projeto completo. O Objetivo desse teste é avaliar como você soluciona problemas, como você pensa para solucionar, até porque, o prazo é bem apertado para entregar. 
 
 #### E qual o prazo para fazer meu PullRequest?
-Do dia **04/04/2023** até às **20hrs** do dia **06/04/2023**.
+Do dia **03/09/2025** até às **22hrs** do dia **05/09/2025**.
 
 Fique a vontade para chamar a gente em qualquer horário para qualquer dúvida.
 
