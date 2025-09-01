@@ -8,7 +8,6 @@ A quem vou me reportar relacionado ao teste?
 | Nome  | Github   |
 | :--------: | :---------: |
 | Thiago S. Almeida - thiagodons@gmail.com   | [thiagoalmeidadon](https://github.com/thiagoalmeidadon)   |
-| Nayra Duarte - nay_duartt@hotmail.com | [gauch4](https://github.com/gauch4) |
 
 
 
