@@ -1,0 +1,25 @@
+- name: Configurar Servidor Web com Docker Hello-World
+  hosts: webserver
+  become: yes # Para executar comandos como administrador (sudo)
+
+  tasks:
+    - name: Garantir que o Docker esteja instalado
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Garantir que o serviço do Docker esteja rodando
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Rodar o container helloworld-http do desafio
+      docker_container:
+        name: helloworld-app
+        image: strm/helloworld-http # A imagem sugerida no desafio!
+        state: started
+        restart_policy: always
+        published_ports:
+          - "80:80" # Mapeia a porta 80 da máquina para a porta 80 do container
