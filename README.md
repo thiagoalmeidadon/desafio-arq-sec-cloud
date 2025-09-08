@@ -42,7 +42,7 @@ https://hub.docker.com/r/strm/helloworld-http/
 Calma, não tem problema não entregar o projeto completo. O Objetivo desse teste é avaliar como você soluciona problemas, como você pensa para solucionar, até porque, o prazo é bem apertado para entregar. 
 
 #### E qual o prazo para fazer meu PullRequest?
-Do dia **03/09/2025** até às **22hrs** do dia **05/09/2025**.
+Do dia **10/09/2025** até às **12hrs** do dia **12/09/2025**.
 
 Fique a vontade para chamar a gente em qualquer horário para qualquer dúvida.
 
