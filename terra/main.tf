@@ -126,3 +126,6 @@ resource "aws_instance" "web" {
     Role = "web"
   }
 }
+resource "aws_ec2_serial_console_access" "example" {
+  enabled = true
+}
