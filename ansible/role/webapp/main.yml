@@ -1,0 +1,210 @@
+# AWS IaC Challenge — EC2 + Flask (Terraform + Ansible + Docker)
+
+Agora a solução utiliza **Terraform** para infraestrutura e **Ansible** para provisionamento/configuração da aplicação dentro da EC2. O `user_data` fica mínimo (só garante que o agente SSM esteja ativo). O Ansible usa o plugin **AWS SSM** para rodar remotamente sem abrir SSH.
+
+---
+
+## Arquitetura (resumo)
+
+* **VPC** /16 com **1 subnet pública** /24.
+* **Internet Gateway** + **Route Table** para saída pública.
+* **Security Group**: abre **80/TCP** para `0.0.0.0/0`, sem SSH.
+* **EC2 Amazon Linux 2023** com:
+
+  * **IAM Role** com **AmazonSSMManagedInstanceCore** (acesso via Session Manager).
+  * **Docker Engine** instalado via Ansible.
+  * Aplicação Flask containerizada rodando via systemd.
+
+---
+
+## Estrutura do repositório
+
+```
+.
+├── README.md
+├── terraform
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── user_data.sh
+└── ansible
+    ├── inventory_aws_ssm.yml
+    ├── playbook.yml
+    └── roles
+        └── webapp
+            ├── tasks/main.yml
+            ├── files/hello.py
+            └── files/Dockerfile
+```
+
+---
+
+## Terraform — `user_data.sh`
+
+Mínimo, apenas garante updates e SSM ativo.
+
+```bash
+#!/bin/bash
+set -euxo pipefail
+
+# Atualizações básicas
+sudo dnf -y update
+
+# Garantir SSM Agent
+sudo systemctl enable --now amazon-ssm-agent
+```
+
+---
+
+## Ansible — `inventory_aws_ssm.yml`
+
+Usando o plugin oficial para executar via **SSM**, sem SSH.
+
+```yaml
+plugin: amazon.aws.aws_ssm
+regions:
+  - us-east-1
+filters:
+  tag:Role: web
+hostnames:
+  - instanceId
+```
+
+---
+
+## Ansible — `playbook.yml`
+
+```yaml
+- name: Provisionar aplicação web em Docker
+  hosts: all
+  become: yes
+  roles:
+    - webapp
+```
+
+---
+
+## Role `webapp` — `tasks/main.yml`
+
+```yaml
+- name: Instalar pacotes básicos
+  ansible.builtin.dnf:
+    name:
+      - docker
+    state: present
+
+- name: Habilitar e iniciar Docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Copiar aplicação Flask
+  ansible.builtin.copy:
+    src: hello.py
+    dest: /opt/helloworld/hello.py
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+
+- name: Copiar Dockerfile
+  ansible.builtin.copy:
+    src: Dockerfile
+    dest: /opt/helloworld/Dockerfile
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+
+- name: Build da imagem Docker
+  community.docker.docker_image:
+    build:
+      path: /opt/helloworld
+    name: helloworld
+    tag: latest
+
+- name: Criar serviço systemd para o container
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/helloworld.service
+    content: |
+      [Unit]
+      Description=Hello World Flask in Docker
+      After=docker.service
+      Requires=docker.service
+
+      [Service]
+      Restart=always
+      ExecStart=/usr/bin/docker run --rm --name helloworld -p 80:80 helloworld:latest
+      ExecStop=/usr/bin/docker stop helloworld
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Habilitar e iniciar serviço da aplicação
+  ansible.builtin.systemd:
+    name: helloworld.service
+    state: started
+    enabled: yes
+```
+
+---
+
+## Role `webapp` — `files/hello.py`
+
+```python
+from flask import Flask
+app = Flask(__name__)
+
+@app.get('/')
+def root():
+    return 'Hello, World from Docker + Ansible!\n'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
+```
+
+---
+
+## Role `webapp` — `files/Dockerfile`
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY hello.py .
+RUN pip install flask gunicorn
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:80", "hello:app"]
+```
+
+---
+
+## Execução
+
+1. Criar infraestrutura:
+
+```bash
+cd terraform
+terraform init
+terraform apply -auto-approve
+```
+
+2. Provisionar aplicação:
+
+```bash
+cd ../ansible
+ansible-playbook -i inventory_aws_ssm.yml playbook.yml
+```
+
+3. Acessar:
+
+```
+http://<public_ip>
+```
+
+---
+
+## Considerações de segurança
+
+* Sem porta SSH aberta; acesso somente via **SSM**.
+* **IMDSv2 obrigatório** na instância.
+* **SG mínimo**: só 80/TCP.
+* Provisionamento idempotente via Ansible.
+* Separação clara entre IaC (Terraform) e Configuração (Ansible).

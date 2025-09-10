@@ -1,0 +1,5 @@
+- name: Provisionar aplicação web em Docker
+hosts: all
+become: yes
+roles:
+- webapp
