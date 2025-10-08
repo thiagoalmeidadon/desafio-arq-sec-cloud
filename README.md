@@ -12,20 +12,20 @@ A quem vou me reportar relacionado ao teste?
 
 
 ### Qual é o escopo do desafio?
-Criar uma infraestrutura na AWS usando recursos de Compute e subir uma aplicação Web simples, tudo em IaC e tomando um leve cuidado com a segurança ( afinal, tu tá aplicando para uma vaga em Segurança 😊 ).
+Criar uma infraestrutura na AWS usando recursos de Compute e subir uma aplicação Web, IaC e tomando um "leve" cuidado com a segurança ( afinal, tu tá aplicando para uma vaga em Segurança 😊 ).
 
 #### Vamos ir mais a fundo na explicação:
 
 0. Faça um fork deste repositório (este mesmo do desafio).
 
-1. Projete uma infraestrutura em IaC na AWS. Pense na VPC e seus recursos para subir uma instância EC2 segura. Para isso utilize o Terraform, ou se preferir pode utilizar o CloudFormation.
+1. Projete uma infraestrutura em IaC na AWS. Pense na VPC, suas subnets, seus recursos e duas instâncias EC2. Tudo para suportar de forma segura um servidorzinho WEB (só pra dar um oi) e um Banco de dados (básico mesmo, mas seguro). Para isso utilize o Terraform ou CloudFormation. 
 
-2. Próximo passo, você precisa provisionar recursos necessários para sua instância EC2, e aqui você tem a liberdade de escolher entre Ansible, Bash ou outra linguagem de provisionamento de sua preferência, aqui gostamos do **Ansible**, mas fique à vontade.
+2. Próximo passo, você precisa provisionar recursos necessários para suas instâncias EC2. Aqui você tem a liberdade de escolher entre Ansible, Bash ou outra linguagem de provisionamento de sua preferência, fique à vontade.
 
-3. E a cereja do bolo, uma aplicação Web. Mas calma, basta subir um simples hello world HTTP e já está ótimo [helloworld-http](https://hub.docker.com/r/strm/helloworld-http/). 
-Fique à vontade para subir um App simples com Python, Django, PHP, Laravel, ou outra linguagem, framework ou container de sua preferência, só lembre-se, o tempo é curto (**menos é mais**).
+3. Assim que subiu sua infraestrutura, faça uma análise de segurança, código e organização antes do PR. Lembre-se, o foco é segurança, mas ter uma estrutura organizada é muito importante.
+Obs.: O servidor WEB pode ser um simples Wordpress, ou um framework de sua preferência. Só lembre-se de utilizar o banco de dados também.
 
-4. Terminou? Agora faça um **PullRequest** dentro da data de entrega, que agora é com a gente.
+5. Terminou? Agora faça um **PullRequest** dentro da data de entrega, que agora é com a gente.
 
 Como próximo passo, pense em alguma melhoria no seu projeto, vamos conversar sobre isso com você.
 
@@ -36,13 +36,12 @@ https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/i
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet
 https://docs.ansible.com/ansible_community.html
-https://hub.docker.com/r/strm/helloworld-http/
 
 #### Acabou o prazo e não consegui terminar, e agora?
 Calma, não tem problema não entregar o projeto completo. O Objetivo desse teste é avaliar como você soluciona problemas, como você pensa para solucionar, até porque, o prazo é bem apertado para entregar. 
 
 #### E qual o prazo para fazer meu PullRequest?
-Do dia **10/09/2025** até às **12hrs** do dia **12/09/2025**.
+Do dia **08/10/2025** até às **00hrs** do dia **11/10/2025**.
 
 Fique a vontade para chamar a gente em qualquer horário para qualquer dúvida.
 
