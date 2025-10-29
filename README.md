@@ -41,7 +41,7 @@ https://docs.ansible.com/ansible_community.html
 Calma, não tem problema não entregar o projeto completo. O Objetivo desse teste é avaliar como você soluciona problemas, como você pensa para solucionar, até porque, o prazo é bem apertado para entregar. 
 
 #### E qual o prazo para fazer meu PullRequest?
-Do dia **08/10/2025** até às **00hrs** do dia **11/10/2025**.
+Do dia **29/10/2025** até às **00hrs** do dia **31/10/2025**.
 
 Fique a vontade para chamar a gente em qualquer horário para qualquer dúvida.
 
